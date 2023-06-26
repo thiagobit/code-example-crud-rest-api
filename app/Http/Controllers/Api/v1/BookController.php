@@ -4,16 +4,27 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookRequest;
+use App\Http\Requests\IndexBookRequest;
 use App\Models\Book;
+use App\Services\BookService;
+use Illuminate\Http\JsonResponse;
 
 class BookController extends Controller
 {
+    public function __construct(private readonly BookService $service)
+    {}
+
     /**
-     * Display a listing of the resource.
+     * Display a listing of books.
+     *
+     * @param IndexBookRequest $request
+     * @return JsonResponse
      */
-    public function index()
+    public function index(IndexBookRequest $request): JsonResponse
     {
-        //
+        $books = $this->service->all($request);
+
+        return response()->json($books, 200);
     }
 
     /**
