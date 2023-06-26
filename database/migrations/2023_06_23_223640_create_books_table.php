@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('books', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('isbn', 20)->nullable();
-            $table->decimal('value')->nullable();
+            $table->string('isbn', 13)->nullable();
+            $table->decimal('value', 5)->nullable();
             $table->timestamps();
             $table->softDeletesDatetime();
         });

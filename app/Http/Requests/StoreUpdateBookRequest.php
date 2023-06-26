@@ -2,16 +2,17 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\IsbnRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class BookRequest extends FormRequest
+class StoreUpdateBookRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,9 +23,9 @@ class BookRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|max:255',
-            'isbn' => 'max:20|unique:books',
-            'value' => 'decimal:2|max:999999',
+            'name' => 'required|string|max:255',
+            'isbn' => ['nullable', 'integer', new IsbnRule, 'unique:books'],
+            'value' => 'nullable|decimal:0,2|max:999.99',
         ];
     }
 }
