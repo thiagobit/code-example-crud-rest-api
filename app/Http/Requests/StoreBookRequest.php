@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Rules\IsbnRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreUpdateBookRequest extends FormRequest
+class StoreBookRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

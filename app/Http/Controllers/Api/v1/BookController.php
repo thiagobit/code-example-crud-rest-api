@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreUpdateBookRequest;
+use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\IndexBookRequest;
 use App\Models\Book;
 use App\Services\BookService;
@@ -30,10 +30,10 @@ class BookController extends Controller
     /**
      * Store a newly created book in storage.
      *
-     * @param StoreUpdateBookRequest $request
+     * @param StoreBookRequest $request
      * @return JsonResponse
      */
-    public function store(StoreUpdateBookRequest $request): JsonResponse
+    public function store(StoreBookRequest $request): JsonResponse
     {
         $this->service->store($request->validated());
 
