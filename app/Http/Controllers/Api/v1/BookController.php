@@ -41,11 +41,17 @@ class BookController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified book.
      */
-    public function show(Book $book)
+    public function show(int $id)
     {
-        //
+        $book = $this->service->get($id);
+
+        if (!$book) {
+            abort(404, 'Book not found.');
+        }
+
+        return response()->json($book, 200);
     }
 
     /**

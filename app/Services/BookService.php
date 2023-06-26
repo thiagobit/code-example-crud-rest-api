@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Http\Resources\BookResource;
+use App\Models\Book;
 use App\Repositories\BookRepositoryInterface;
 
 class BookService
@@ -24,7 +25,13 @@ class BookService
 
     public function get(int $id)
     {
-        return $this->repo->get($id);
+        $book = $this->repo->get($id);
+
+        if (!$book) {
+            return null;
+        }
+
+        return new BookResource($book);
     }
 
     public function update(int $id, array $data)
