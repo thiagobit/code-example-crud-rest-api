@@ -31,6 +31,6 @@ class BookRepositoryEloquent implements BookRepositoryInterface
 
     public function destroy(int $id)
     {
-        return $this->model->find($id)->delete();
+        return $this->model->find($id)?->delete();
     }
 }

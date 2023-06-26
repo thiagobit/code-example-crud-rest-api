@@ -77,10 +77,19 @@ class BookController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete the specified book.
+     *
+     * @param int $id
+     * @return JsonResponse
      */
-    public function destroy(Book $book)
+    public function destroy(int $id): JsonResponse
     {
-        //
+        $response = $this->service->destroy($id);
+
+        if (!$response) {
+            abort(404, 'Book not found.');
+        }
+
+        return response()->json('', 204);
     }
 }
