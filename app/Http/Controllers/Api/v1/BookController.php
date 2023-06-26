@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\IndexBookRequest;
+use App\Http\Requests\UpdateBookRequest;
 use App\Models\Book;
 use App\Services\BookService;
 use Illuminate\Http\JsonResponse;
@@ -58,11 +59,21 @@ class BookController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified book in storage.
+     *
+     * @param UpdateBookRequest $request
+     * @param int $id
+     * @return JsonResponse
      */
-    public function update(StoreUpdateBookRequest $request, Book $book)
+    public function update(UpdateBookRequest $request, int $id): JsonResponse
     {
-        //
+        $response = $this->service->update($id, $request->validated());
+
+        if (!$response) {
+            abort(404, 'Book not found.');
+        }
+
+        return response()->json('', 204);
     }
 
     /**
