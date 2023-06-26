@@ -33,7 +33,7 @@ class BookController extends Controller
      * @param StoreUpdateBookRequest $request
      * @return JsonResponse
      */
-    public function store(StoreUpdateBookRequest $request)
+    public function store(StoreUpdateBookRequest $request): JsonResponse
     {
         $this->service->store($request->validated());
 
@@ -42,8 +42,11 @@ class BookController extends Controller
 
     /**
      * Display the specified book.
+     *
+     * @param int $id
+     * @return JsonResponse
      */
-    public function show(int $id)
+    public function show(int $id): JsonResponse
     {
         $book = $this->service->get($id);
 
