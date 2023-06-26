@@ -22,7 +22,7 @@ class BookController extends Controller
      */
     public function index(IndexBookRequest $request): JsonResponse
     {
-        $books = $this->service->all($request);
+        $books = $this->service->all($request->validated());
 
         return response()->json($books, 200);
     }

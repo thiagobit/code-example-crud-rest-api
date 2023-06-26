@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Http\Requests\IndexBookRequest;
 use App\Http\Resources\BookResource;
 use App\Repositories\BookRepositoryInterface;
 
@@ -16,9 +15,9 @@ class BookService
         return $this->repo->store($data);
     }
 
-    public function all(IndexBookRequest $request)
+    public function all(array $request)
     {
-        $pageSize = $request->page_size ?? config('api.page_size');
+        $pageSize = $request['page_size'] ?? config('api.page_size');
 
         return BookResource::collection($this->repo->all($pageSize));
     }
