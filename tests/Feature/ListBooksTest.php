@@ -5,11 +5,21 @@ namespace Tests\Feature;
 use App\Models\Book;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
+use Illuminate\Support\Facades\Auth;
+use Tests\ApiTestCase;
 
-class ListBooksTest extends TestCase
+class ListBooksTest extends ApiTestCase
 {
     use RefreshDatabase, WithFaker;
+
+    /** @test */
+    public function guests_cannot_access_list_endpoint()
+    {
+        Auth::logout();
+
+        $this->get(route('v1.books.index'))
+            ->assertUnauthorized();
+    }
 
     /** @test */
     public function books_can_be_listed()

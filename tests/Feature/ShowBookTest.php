@@ -5,9 +5,10 @@ namespace Tests\Feature;
 use App\Models\Book;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
+use Illuminate\Support\Facades\Auth;
+use Tests\ApiTestCase;
 
-class ShowBookTest extends TestCase
+class ShowBookTest extends ApiTestCase
 {
     use RefreshDatabase, WithFaker;
 
@@ -18,6 +19,15 @@ class ShowBookTest extends TestCase
         parent::setUp();
 
         $this->book = Book::factory()->create();
+    }
+
+    /** @test */
+    public function guests_cannot_access_show_endpoint()
+    {
+        Auth::logout();
+
+        $this->get(route('v1.books.show', $this->book->id))
+            ->assertUnauthorized();
     }
 
     /** @test */

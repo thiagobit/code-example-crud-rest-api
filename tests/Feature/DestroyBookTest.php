@@ -4,12 +4,23 @@ namespace Tests\Feature;
 
 use App\Models\Book;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
+use Illuminate\Support\Facades\Auth;
+use Tests\ApiTestCase;
 
-class DestroyBookTest extends TestCase
+class DestroyBookTest extends ApiTestCase
 {
     use RefreshDatabase;
+
+    /** @test */
+    public function guests_cannot_access_destroy_endpoint()
+    {
+        Auth::logout();
+
+        $book = Book::factory()->create();
+
+        $this->delete(route('v1.books.destroy', $book->id))
+            ->assertUnauthorized();
+    }
 
     /** @test */
     public function books_can_be_deleted()

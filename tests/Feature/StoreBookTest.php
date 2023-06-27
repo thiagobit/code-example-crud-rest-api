@@ -4,12 +4,23 @@ namespace Tests\Feature;
 
 use App\Models\Book;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
+use Illuminate\Support\Facades\Auth;
+use Tests\ApiTestCase;
 
-class StoreBooksTest extends TestCase
+class StoreBookTest extends ApiTestCase
 {
     use RefreshDatabase;
+
+    /** @test */
+    public function guests_cannot_access_store_endpoint()
+    {
+        Auth::logout();
+
+        $book = Book::factory()->make()->toArray();
+
+        $this->post(route('v1.books.store', $book))
+            ->assertUnauthorized();
+    }
 
     /** @test */
     public function books_can_be_stored()

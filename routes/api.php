@@ -1,6 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\v1\AuthController;
+use App\Http\Controllers\Api\v1\BookController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,14 +15,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::prefix('v1')->name('v1.')->group(function () {
+    Route::post('/login', [AuthController::class, 'login'])->name('login');
 
-Route::prefix('v1')->name('v1.books.')->controller(\App\Http\Controllers\Api\v1\BookController::class)->group(function () {
-    Route::get('/books', 'index')->name('index');
-    Route::post('/books', 'store')->name('store');
-    Route::get('/books/{id}', 'show')->name('show');
-    Route::put('/books/{id}', 'update')->name('update');
-    Route::delete('/books/{id}', 'destroy')->name('destroy');
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+        Route::name('books.')->controller(BookController::class)->group(function () {
+            Route::get('/books', 'index')->name('index');
+            Route::post('/books', 'store')->name('store');
+            Route::get('/books/{id}', 'show')->name('show');
+            Route::put('/books/{id}', 'update')->name('update');
+            Route::delete('/books/{id}', 'destroy')->name('destroy');
+        });
+    });
 });
