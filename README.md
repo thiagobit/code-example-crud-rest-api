@@ -8,6 +8,10 @@ It's backed by tests and Docker containers.
 
 - The Books _index_ resource has pagination implemented for the efficient retrieval and presentation of large sets of data. It has the objective of reducing the response size, network traffic and processing time.
 
+- The _GET_ routes are using [Laravel Resource](https://laravel.com/docs/10.x/eloquent-resources) as a transform layer to filter some attributes before the response.
+
+- The _Book_ model is working with _soft delete_ feature to retain data integrity and facilitate data restoration. 
+
 - The `BookFactory` object was using `faker` to generate `isbn10()` and `isbn13()`, but since there are cases that ends with a letter (097522980*X*) and the test instruction is saying "_only numbers_", I am using `rand()` for that.
 
 - The endpoints require a _Bearer Token_ which can be obtained from the login resource using the test user created by the db seeding.
