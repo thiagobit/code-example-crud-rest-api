@@ -4,7 +4,7 @@ A simple API interface with a CRUD for Books.
 It's backed by tests and Docker containers.
 
 ## Notes:
-- The API is implemented following the Repository pattern to centralize and encapsulate the logic for accessing and manipulating data, promoting separation of concerns and enhancing the maintainability and testability of the codebase.
+- The API is implemented following the _Repository_ pattern to centralize and encapsulate the logic for accessing and manipulating data, promoting separation of concerns and enhancing the maintainability and testability of the codebase.
 
 - The Books _index_ resource has pagination implemented for the efficient retrieval and presentation of large sets of data. It has the objective of reducing the response size, network traffic and processing time.
 
@@ -59,9 +59,11 @@ docker run --rm \
     - `email`
         - Description: User email address.
         - Type: `string`
+        - Required: `true`
     - `password`
         - Description: User password.
         - Type: `string`
+        - Required: `true`
 - Example:
     - Input:
         ```json
@@ -103,10 +105,12 @@ docker run --rm \
     - `page_size`
         - Description: The number of elements to be returned.
         - Type: `integer`
+        - Required: `false`
         - Default value: `20`
     - `page`
         - Description: The index of the set of data.
         - Type: `integer`
+        - Required: `false`
         - Default value: `1`
 - Example:
     - Input:
@@ -145,6 +149,7 @@ docker run --rm \
     - `{id}`
         - Description: Book ID.
         - Type: `integer`
+        - Required: `true`
 - Example:
     - Input:
         ```
@@ -168,12 +173,15 @@ docker run --rm \
     - `name`
         - Description: Book name.
         - Type: `string`
+        - Required: `true`
     - `isbn`
         - Description: Book ISBN.
         - Type: `string`
+        - Required: `false`
     - `value`
         - Description: Book price.
         - Type: `float`
+        - Required: `false`
 - Example:
     - Input:
         ```json
@@ -196,9 +204,27 @@ docker run --rm \
     - `{id}`
         - Description: Book ID.
         - Type: `integer`
+        - Required: `true`
+    - `name`
+        - Description: Book name.
+        - Type: `string`
+        - Required: `false`
+    - `isbn`
+        - Description: Book ISBN.
+        - Type: `string`
+        - Required: `false`
+    - `value`
+        - Description: Book price.
+        - Type: `float`
+        - Required: `false`
 - Example:
     - Input:
-        ```
+        ```json
+        {
+            "name": "New name",
+            "isbn": "9876543219",
+            "value": 19.99
+        }
         ```
     - Output:
         - Status: `204`
