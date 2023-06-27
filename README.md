@@ -8,7 +8,7 @@ It's backed by tests and Docker containers.
 
 - The Books _index_ resource has pagination implemented for the efficient retrieval and presentation of large sets of data. It has the objective of reducing the response size, network traffic and processing time.
 
-- The _GET_ routes are using [Laravel Resource](https://laravel.com/docs/10.x/eloquent-resources) as a transform layer to filter some attributes before the response.
+- The _GET_ endpoints are using [Laravel API Resource](https://laravel.com/docs/10.x/eloquent-resources) as a transformation layer to filter some attributes before the response.
 
 - The _Book_ model is working with _soft delete_ feature to retain data integrity and facilitate data restoration. 
 
@@ -54,7 +54,7 @@ docker run --rm \
 ./vendor/bin/sail artisan db:seed
 ```
 
-## Resources:
+## Endpoints:
 
 ### POST api/v1/login
 - Description: Generate the access token.
@@ -102,16 +102,16 @@ docker run --rm \
         }
         ```
 
-### GET api/v1/books
+### GET api/v1/books/?{page_size}&{page}
 - Description: List all non deleted books.
 - Needs authentication: `true`
 - Parameters:
-    - `page_size`
+    - `{page_size}`
         - Description: The number of elements to be returned.
         - Type: `integer`
         - Required: `false`
         - Default value: `20`
-    - `page`
+    - `{page}`
         - Description: The index of the set of data.
         - Type: `integer`
         - Required: `false`
