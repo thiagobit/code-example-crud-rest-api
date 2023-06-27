@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\IndexBookRequest;
 use App\Http\Requests\UpdateBookRequest;
-use App\Models\Book;
 use App\Services\BookService;
 use Illuminate\Http\JsonResponse;
 
