@@ -3,10 +3,9 @@
 namespace App\Services;
 
 use App\Http\Resources\BookResource;
-use App\Models\Book;
 use App\Repositories\BookRepositoryInterface;
 
-class BookService
+class BookService implements ServiceInterface
 {
     public function __construct(private readonly BookRepositoryInterface $repo)
     {}
