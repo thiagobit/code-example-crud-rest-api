@@ -30,7 +30,7 @@ class DestroyBookTest extends ApiTestCase
         $this->delete(route('v1.books.destroy', $book->id))
             ->assertSuccessful();
 
-        $this->assertSoftDeleted('books', $book->toArray());
+        $this->assertSoftDeleted('books', ['id' => $book->id]);
     }
 
     /** @test */
