@@ -18,7 +18,7 @@ class BookFactory extends Factory
     {
         return [
             'name' => str_replace('.', '', $this->faker->sentence(3)),
-            'isbn' => rand(1000000000000, 9999999999999),
+            'isbn' => $this->faker->isbn13(),
             'value' => $this->faker->randomFloat(2, 10, 999),
         ];
     }
@@ -27,7 +27,7 @@ class BookFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'isbn' => rand(1000000000, 9999999999),
+                'isbn' => $this->faker->isbn10(),
             ];
         });
     }

@@ -24,7 +24,7 @@ class StoreBookRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'isbn' => ['nullable', 'integer', new IsbnRule, 'unique:books'],
+            'isbn' => ['nullable', 'string', new IsbnRule, 'unique:books'],
             'value' => 'nullable|decimal:0,2|max:999.99',
         ];
     }

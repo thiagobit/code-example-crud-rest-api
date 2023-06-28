@@ -98,12 +98,12 @@ class UpdateBookTest extends ApiTestCase
                 'isbn' => 'The isbn has already been taken.',
             ]);
 
-        $book['isbn'] = 'a';
+        $book['isbn'] = ['a'];
 
         $this->put(route('v1.books.update', array_merge(['id' => $this->book->id], $book)))
             ->assertUnprocessable()
             ->assertJsonValidationErrors([
-                'isbn' => 'The isbn field must be an integer.',
+                'isbn' => 'The isbn field must be a string.',
             ]);
 
         $book['isbn'] = '123456789';
@@ -112,6 +112,14 @@ class UpdateBookTest extends ApiTestCase
             ->assertUnprocessable()
             ->assertJsonValidationErrors([
                 'isbn' => 'The isbn field must have 10 or 13 digits.',
+            ]);
+
+        $book['isbn'] = '0-545-01022-X';
+
+        $this->put(route('v1.books.update', array_merge(['id' => $this->book->id], $book)))
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors([
+                'isbn' => 'The isbn field only accepts letters and numbers.',
             ]);
     }
 
