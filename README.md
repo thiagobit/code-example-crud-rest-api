@@ -6,7 +6,7 @@ It's backed by tests and Docker containers.
 ## Notes:
 - The API is implemented following the _Repository_ pattern to centralize and encapsulate the logic for accessing and manipulating data, promoting separation of concerns and enhancing the maintainability and testability of the codebase.
 
-- The Books _index_ resource has pagination implemented for the efficient retrieval and presentation of large sets of data. It has the objective of reducing the response size, network traffic and processing time.
+- The Books _index_ resource has pagination and a cache layer implemented for the efficient retrieval and presentation of large sets of data. It has the objective of reducing the response size, network traffic and processing time.
 
 - The _GET_ endpoints are using [Laravel API Resource](https://laravel.com/docs/10.x/eloquent-resources) as a transformation layer to filter some attributes before the response.
 
