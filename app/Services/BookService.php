@@ -3,7 +3,9 @@
 namespace App\Services;
 
 use App\Http\Resources\BookResource;
+use App\Models\Book;
 use App\Repositories\BookRepositoryInterface;
+use Illuminate\Support\Facades\Cache;
 
 class BookService implements ServiceInterface
 {
@@ -12,14 +14,21 @@ class BookService implements ServiceInterface
 
     public function store(array $data)
     {
+        Cache::flush(Book::INDEX_CACHE_KEY);
+
         return $this->repo->store($data);
     }
 
     public function all(array $request)
     {
+        $page = $request['page'] ?? 1;
         $pageSize = $request['page_size'] ?? config('api.page_size');
 
-        return BookResource::collection($this->repo->all($pageSize));
+        $books = Cache::tags([Book::INDEX_CACHE_KEY . "_{$page}_{$pageSize}"])->remember(Book::INDEX_CACHE_KEY, now()->addMinutes(30), function () use ($page, $pageSize) {
+            return $this->repo->all($page, $pageSize);
+        });
+
+        return BookResource::collection($books);
     }
 
     public function get(int $id)

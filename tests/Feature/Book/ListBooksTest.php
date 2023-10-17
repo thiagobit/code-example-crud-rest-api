@@ -6,6 +6,7 @@ use App\Models\Book;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Tests\ApiTestCase;
 
 class ListBooksTest extends ApiTestCase
@@ -24,6 +25,8 @@ class ListBooksTest extends ApiTestCase
     /** @test */
     public function books_can_be_listed()
     {
+        Cache::clear();
+
         $book = Book::factory()->create();
 
         $this->get(route('v1.books.index'))
@@ -52,6 +55,8 @@ class ListBooksTest extends ApiTestCase
     /** @test */
     public function books_index_has_default_pagination_with_20_elements()
     {
+        Cache::clear();
+
         Book::factory()->count(100)->create();
 
         $this->get(route('v1.books.index'))
@@ -62,6 +67,8 @@ class ListBooksTest extends ApiTestCase
     /** @test */
     public function books_index_has_page_as_parameter()
     {
+        Cache::clear();
+
         $books = Book::factory()->count(100)->create();
 
         $this->get(route('v1.books.index', ['page' => 1]))
@@ -80,6 +87,8 @@ class ListBooksTest extends ApiTestCase
     /** @test */
     public function books_index_has_page_size_as_parameter()
     {
+        Cache::clear();
+
         $books = Book::factory()->count(100)->create();
 
         $this->get(route('v1.books.index', ['page_size' => 2]))
@@ -104,5 +113,34 @@ class ListBooksTest extends ApiTestCase
             ->assertJsonValidationErrors([
                 'page_size' => 'The page size field must be an integer.'
             ]);
+    }
+
+    /** @test */
+    public function books_index_cache_is_reset_when_new_books_is_stored()
+    {
+        $book = Book::factory()->make()->toArray();
+
+        $this->post(route('v1.books.store', $book))
+            ->assertSuccessful();
+
+        $this->get(route('v1.books.index'))
+            ->assertSuccessful()
+            ->assertSee($book['name'])
+            ->assertSee($book['isbn'])
+            ->assertSee($book['value']);
+
+        $newBook = Book::factory()->make()->toArray();
+
+        $this->post(route('v1.books.store', $newBook))
+            ->assertSuccessful();
+
+        $this->get(route('v1.books.index'))
+            ->assertSuccessful()
+            ->assertSee($book['name'])
+            ->assertSee($book['isbn'])
+            ->assertSee($book['value'])
+            ->assertSee($newBook['name'])
+            ->assertSee($newBook['isbn'])
+            ->assertSee($newBook['value']);
     }
 }

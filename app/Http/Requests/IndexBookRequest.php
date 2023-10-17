@@ -22,6 +22,7 @@ class IndexBookRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'page' => 'nullable|int|min:1',
             'page_size' => 'nullable|int|min:1',
         ];
     }

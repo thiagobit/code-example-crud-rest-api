@@ -14,9 +14,9 @@ class BookRepositoryEloquent implements BookRepositoryInterface
         return $this->model->create($data);
     }
 
-    public function all(int $pageSize = 10)
+    public function all(int $page = 1, int $pageSize = 20)
     {
-        return $this->model->query()->paginate($pageSize);
+        return $this->model->query()->paginate(perPage: $pageSize, page: $page);
     }
 
     public function get(int $id)

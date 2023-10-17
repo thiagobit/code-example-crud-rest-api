@@ -10,6 +10,8 @@ class Book extends Model
 {
     use HasFactory, SoftDeletes;
 
+    const INDEX_CACHE_KEY = 'books_index';
+
     protected $fillable = [
         'name',
         'isbn',
