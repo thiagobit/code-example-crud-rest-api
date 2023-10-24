@@ -52,6 +52,11 @@ docker run --rm \
 ./vendor/bin/sail artisan db:seed
 ```
 
+7. To run the tests routines:
+```shell
+./vendor/bin/sail artisan test
+```
+
 ## Endpoints:
 
 ### POST api/v1/login

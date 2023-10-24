@@ -14,7 +14,7 @@ class BookService implements ServiceInterface
 
     public function store(array $data)
     {
-        Cache::flush(Book::INDEX_CACHE_KEY);
+        Cache::flush();
 
         return $this->repo->store($data);
     }
@@ -24,7 +24,7 @@ class BookService implements ServiceInterface
         $page = $request['page'] ?? 1;
         $pageSize = $request['page_size'] ?? config('api.page_size');
 
-        $books = Cache::tags([Book::INDEX_CACHE_KEY . "_{$page}_{$pageSize}"])->remember(Book::INDEX_CACHE_KEY, now()->addMinutes(30), function () use ($page, $pageSize) {
+        $books = Cache::tags([Book::getCacheKey($page, $pageSize)])->remember(Book::INDEX_CACHE_KEY, now()->addMinutes(30), function () use ($page, $pageSize) {
             return $this->repo->all($page, $pageSize);
         });
 

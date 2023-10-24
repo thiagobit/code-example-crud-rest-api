@@ -17,4 +17,9 @@ class Book extends Model
         'isbn',
         'value',
     ];
+
+    static public function getCacheKey(int $page, int $pageSize): string
+    {
+        return self::INDEX_CACHE_KEY . "_" . $page . "_" . $pageSize;
+    }
 }
